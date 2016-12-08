@@ -10,3 +10,8 @@ target
 
 #Gedit
 *~
+
+#Eclipse
+.classpath
+.project
+.settings
