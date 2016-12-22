@@ -46,6 +46,7 @@ public class AccountService {
 					, keyHolder);
 			return new UserProfile(keyHolder.getKey().intValue(),login, 0);
 		} catch (DuplicateKeyException dk) {
+            System.out.print("Duplicate key error");
 			return null;
 		}
     }
