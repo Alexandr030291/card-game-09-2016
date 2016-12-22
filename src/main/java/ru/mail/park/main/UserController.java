@@ -21,6 +21,7 @@ public class UserController extends MainController{
     @RequestMapping(path = "/api/user", method = RequestMethod.POST)
     public static Result userAdd(@RequestBody UserCreate body) {
         UserProfile newUser = null;
+        System.out.print(body);
         String login = body.getLogin();
         String email = body.getEmail();
         String password = body.getPassword();
