@@ -15,6 +15,7 @@ public final class Result {
     public Result(int code, Object response) {
         this.code = code;
         this.response = response;
+        System.out.print("code: "+ this.code + ", response: "+ this.response);
     }
 
     public int getCode() {
