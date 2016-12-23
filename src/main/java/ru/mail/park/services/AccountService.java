@@ -70,11 +70,13 @@ public class AccountService {
 
     public List<String> checkUser(String login, String email){
         List<String> duplicare = new ArrayList<>();
-        if(template.queryForObject("SELECT `id` FROM `Users` WHERE `login` = ?;",Integer.class,login)>0)
+        List<Integer> error;
+        error = template.queryForList("SELECT `id` FROM `Users` WHERE `login` = ?;",Integer.class,login);
+        if(error.size()!=0)
             duplicare.add("login");
-        if(template.queryForObject("SELECT `id` FROM `Users` WHERE `email` = ?;",Integer.class,email)>0)
+        error = template.queryForList("SELECT `id` FROM `Users` WHERE `email` = ?;",Integer.class,email);
+        if(error.size()!=0)
             duplicare.add("email");
-
         return duplicare;
     }
 

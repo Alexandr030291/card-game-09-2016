@@ -20,7 +20,7 @@ public class UserController extends MainController{
 
     @RequestMapping(path = "/api/user", method = RequestMethod.POST)
     public static Result userAdd(@RequestBody UserCreate body) {
-        UserProfile newUser = null;
+        UserProfile newUser;
         System.out.print(body);
         String login = body.getLogin();
         String email = body.getEmail();
@@ -35,13 +35,17 @@ public class UserController extends MainController{
         if (error.size() > 0)
             return Result.incorrectRequest(error);
         try {
+            error = getAccountService().checkUser(login, email);
+            if (error.size()>0) {
+                return Result.userAlreadyExists(error);
+            }
             newUser = getAccountService().addUser(login, password, email);
-            if (newUser == null)
-                return Result.userAlreadyExists(getAccountService().checkUser(login, email));
+            if (newUser != null)
+                return Result.ok(newUser);
         } catch (Exception e) {
             Result.unkownError();
         }
-        return Result.ok(newUser);
+        return Result.unkownError();
     }
 
     @RequestMapping(path = "/api/user/{id}", method = RequestMethod.GET)

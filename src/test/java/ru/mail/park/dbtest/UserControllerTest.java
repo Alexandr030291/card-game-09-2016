@@ -46,6 +46,32 @@ public class UserControllerTest {
     }
 
     @Test
+    public void testUserCreateError() throws Exception {
+        UserCreate user0 =new UserCreate("user22","example22@mail.ru","GOD");
+        UserCreate user1 =new UserCreate("user22","example1@mail.ru","GOD");
+        UserCreate user2 =new UserCreate("user1","example22@mail.ru","GOD");
+        mockMvc.perform(post("/api/user/")
+                .content(user0.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("code").value(0))
+                .andExpect(jsonPath("response.id").isNumber())
+                .andExpect(jsonPath("response.login").value(user0.getLogin()))
+                .andExpect(jsonPath("response.score").value(0));
+        mockMvc.perform(post("/api/user/")
+                .content(user0.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("code").value(5));
+        mockMvc.perform(post("/api/user/")
+                .content(user1.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("code").value(5));
+        mockMvc.perform(post("/api/user/")
+                .content(user2.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("code").value(5));
+    }
+
+    @Test
     public void testUserDefault() throws Exception{
         int countUser = 2;
         userCreateList(countUser);
