@@ -83,7 +83,7 @@ public class AccountService {
     public List<UserProfile> getTop(int limit, long since_id){
         List<UserProfile> top;
         String sqlLimit =(limit>0)?"LIMIT " + limit:"";
-        String sql = "SELECT `id`, `login`, `score` FROM `Users` WHERE `id` > ? ORDER BY `score` DESC " + sqlLimit;
+        String sql = "SELECT `id`, `login`, `score` FROM `Users` WHERE `id` > ? ORDER BY `score` DESC , `id` ASC " + sqlLimit ;
         top = template.query(sql, userProfileRowMapper, since_id);
         return top;
     }
