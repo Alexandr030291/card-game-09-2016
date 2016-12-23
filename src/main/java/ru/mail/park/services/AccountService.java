@@ -1,6 +1,7 @@
 package ru.mail.park.services;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.mail.park.model.Id;
 import ru.mail.park.model.User.UserProfile;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -52,13 +54,18 @@ public class AccountService {
     }
 
     @Nullable
-    public UserProfile getUser(Integer id) {
+    public UserProfile getUser(Long id) {
         try {
             final String sql = "SELECT `id`,`login`, `score` FROM `Users` WHERE `id` = ?;";
             return template.queryForObject(sql, userProfileRowMapper, id);
         } catch (EmptyResultDataAccessException na) {
             return null;
         }
+    }
+
+    @Nullable
+    public UserProfile getUserById(@NotNull Id<UserProfile> id) {
+        return  getUser(id.getId());
     }
 
     public List<String> checkUser(String login, String email){
@@ -71,7 +78,7 @@ public class AccountService {
         return duplicare;
     }
 
-    public List<UserProfile> getTop(int limit, int since_id){
+    public List<UserProfile> getTop(int limit, long since_id){
         List<UserProfile> top;
         String sqlLimit =(limit>0)?"LIMIT " + limit:"";
         String sql = "SELECT `id`, `login`, `score` FROM `Users` WHERE `id` > ? ORDER BY `score` DESC " + sqlLimit;
@@ -79,21 +86,21 @@ public class AccountService {
         return top;
     }
 
-    public int addScore(int user_id,int score){
+    public int addScore(long user_id,int score){
         String sql ="UPDATE `Users` SET `score` = `score` + ? WHERE `id` = ?";
         return template.update(sql,score,user_id);
     }
     
-    public Integer getId(String login, String password) {
+    public Long getId(String login, String password) {
         try {
             final String sql = "SELECT `id`, `password` FROM `Users` WHERE `login` = ? ;";
             final Security security = template.queryForObject(sql, securityRowMapper,login);
             if (!passwordEncoder.matches(password, security.getPassword())){
-                return -1;
+                return (long) -1;
             }
             return security.getId();
         } catch (EmptyResultDataAccessException na) {
-            return 0;
+            return (long) 0;
         }
     }
     public int removeUser(String login) {
@@ -117,15 +124,15 @@ public class AccountService {
             new Security(rs.getInt("id"),rs.getString("password"));
 
     private static final class Security{
-        private final int id;
+        private final long id;
         private final String password;
 
-        private Security(int id, String password) {
+        private Security(long id, String password) {
             this.id = id;
             this.password = password;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 

@@ -59,7 +59,7 @@ public class SessionControllerTest {
                     .content(anUserAutoList.toString())
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(jsonPath("code").value(0))
-                    .andExpect(jsonPath("response.id").value(userMap.get(anUserAutoList.getLogin()).getId()))
+                    .andExpect(jsonPath("response.id").value(userMap.get(anUserAutoList.getLogin()).getId().getId()))
                     .andExpect(jsonPath("response.login").value(userMap.get(anUserAutoList.getLogin()).getLogin()))
                     .andExpect(jsonPath("response.score").value(userMap.get(anUserAutoList.getLogin()).getScore()));
         }

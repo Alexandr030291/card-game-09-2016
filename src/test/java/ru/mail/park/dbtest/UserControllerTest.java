@@ -51,9 +51,9 @@ public class UserControllerTest {
         userCreateList(countUser);
         List<UserProfile> allUser = MainController.getAccountService().getTop(0, 0);
         for (UserProfile anAllUser : allUser) {
-            mockMvc.perform(get("/api/user/"+String.valueOf(anAllUser.getId())))
+            mockMvc.perform(get("/api/user/"+String.valueOf(anAllUser.getId().getId())))
                     .andExpect(jsonPath("code").value(0))
-                    .andExpect(jsonPath("response.id").value(anAllUser.getId()))
+                    .andExpect(jsonPath("response.id").value(anAllUser.getId().getId()))
                     .andExpect(jsonPath("response.login").value(anAllUser.getLogin()))
                     .andExpect(jsonPath("response.score").value(anAllUser.getScore()));
         }
@@ -74,7 +74,7 @@ public class UserControllerTest {
                     .param("since_id", String.valueOf(since)));
                 result.andExpect(jsonPath("code").value(0));
             for (int j =0 ; j<users.size(); j++) {
-                result.andExpect(jsonPath("response.[" + j + "].id").value(users.get(j).getId()))
+                result.andExpect(jsonPath("response.[" + j + "].id").value(users.get(j).getId().getId()))
                         .andExpect(jsonPath("response.[" + j + "].login").value(users.get(j).getLogin()))
                         .andExpect(jsonPath("response.[" + j + "].score").value(users.get(j).getScore()));
 

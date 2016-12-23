@@ -45,7 +45,7 @@ public class UserController extends MainController{
     }
 
     @RequestMapping(path = "/api/user/{id}", method = RequestMethod.GET)
-    public static Result userAbout(@PathVariable(name = "id") Integer id){
+    public static Result userAbout(@PathVariable(name = "id") Long id){
         UserProfile user;
         if (!(id>0))
             return Result.incorrectRequest();

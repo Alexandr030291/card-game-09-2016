@@ -39,8 +39,8 @@ public class GameController extends MainController{
         Result result = SessionController.checkAuth(httpSession);
         if (result.getCode()>0)
             return result;
-        int user_id = ((UserProfile) result.getResponse()).getId();
-        Integer score = null;
+        long user_id = ((UserProfile) result.getResponse()).getId().getId();
+        Long score = null;
         if (GameUserService.getUser(user_id) != null)
             score = GameUserService.getUser(user_id).getScore();
         if (score==null)
@@ -73,10 +73,10 @@ public class GameController extends MainController{
         List<UserProfile> top = new ArrayList<>();
         while (room.getLose().size()>0){
             room.getPlace().push(room.getLose().pop());
-            room.getReward().push(0);
+            room.getReward().push((long)0);
         }
         int place = 5;
-        int user_id;
+        long user_id;
         int score = 0;
         while (room.getPlace().size()>0){
             user_id = room.getPlace().pop();

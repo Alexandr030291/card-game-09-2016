@@ -5,14 +5,14 @@ import java.util.Set;
 import java.util.Stack;
 
 public class Room extends Deck{
-    private final Set<Integer> users = new HashSet<>();
-    private final Stack<Integer> place = new Stack<>();
-    private final Stack<Integer> lose = new Stack<>();
+    private final Set<Long> users = new HashSet<>();
+    private final Stack<Long> place = new Stack<>();
+    private final Stack<Long> lose = new Stack<>();
     private boolean full = false;
-    private int bank = 0;
-    private final Stack<Integer> reward =new Stack<>();
+    private long bank = 0;
+    private final Stack<Long> reward =new Stack<>();
 
-    public int addUser(int user_id){
+    public int addUser(long user_id){
         if (full) return -1;
         users.add(user_id);
         full=(users.size()==5);
@@ -23,27 +23,27 @@ public class Room extends Deck{
         return full;
     }
 
-    public Stack<Integer> getPlace() {
+    public Stack<Long> getPlace() {
         return place;
     }
 
-    public Set<Integer> getUsers() {
+    public Set<Long> getUsers() {
         return users;
     }
 
-    public Stack<Integer> getLose() {
+    public Stack<Long> getLose() {
         return lose;
     }
 
-    public int getBank() {
+    public long getBank() {
         return bank;
     }
 
-    public Stack<Integer> getReward() {
+    public Stack<Long> getReward() {
         return reward;
     }
 
-    public void setBank(int bank) {
+    public void setBank(long bank) {
         this.bank = bank;
     }
 }

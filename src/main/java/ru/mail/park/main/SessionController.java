@@ -32,7 +32,7 @@ public class SessionController extends MainController{
         }
 
         try {
-            userProfile = getAccountService().getUser((Integer) httpSession.getAttribute("userId"));
+            userProfile = getAccountService().getUser((Long) httpSession.getAttribute("userId"));
         }catch (Exception e) {
             Result.unkownError();
         }
@@ -53,7 +53,7 @@ public class SessionController extends MainController{
             return Result.incorrectRequest(error);
 
         try {
-            final int userId = getAccountService().getId(login, password);
+            final long userId = getAccountService().getId(login, password);
             if (userId == 0)
                 return Result.notFound();
             if (userId==-1)
